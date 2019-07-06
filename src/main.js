@@ -24,6 +24,8 @@ const opts = {
   }
 }
 
+Vue.config.productionTip = false
+
 Vue.use(Vuetify)
 
 Vue.mixin({

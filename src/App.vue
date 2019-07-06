@@ -2,6 +2,7 @@
   <v-app dark>
     <!-- System toolbar -->
     <v-system-bar app window style="-webkit-app-region: drag;" class="green darken-4">
+      <span class="font-weight-light grey--text lighten-4">Early-access beta</span>
       <v-spacer></v-spacer>
       <div class="centralize">
         <img src="./assets/logo.png" height="18" style="position: relative; top: +2px; margin-right: 5px;">
@@ -74,6 +75,7 @@ export default {
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 /* Track */
@@ -89,6 +91,11 @@ export default {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(60, 60, 60);
+}
+
+/* Corner */
+::-webkit-scrollbar-corner {
+  background: rgb(33, 33, 33);
 }
 
 html {
