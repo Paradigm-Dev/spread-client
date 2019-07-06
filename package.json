@@ -4,6 +4,7 @@
   "private": true,
   "description": "A lightweight, yet powerful spreadsheet processor.",
   "author": "Paradigm Development, Inc.",
+  "repository": "github:Paradigm-Dev/spread-desktop",
   "scripts": {
     "build": "vue-cli-service electron:build --publish always --win",
     "serve": "vue-cli-service electron:serve",
