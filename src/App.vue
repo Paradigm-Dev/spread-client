@@ -9,7 +9,7 @@
         <span>Spread</span>
       </div>
       <v-spacer></v-spacer>
-      <div style="-webkit-app-region: no-drag; position: relative; top: +1px;">
+      <div style="-webkit-app-region: no-drag;">
         <v-icon @click="minimize()" v-ripple class="toolbar-icon">mdi-minus</v-icon>
         <v-icon @click="maximized ? unmaximize() : maximize()" v-ripple class="toolbar-icon">mdi-crop-square</v-icon>
         <v-icon @click="close()" v-ripple class="toolbar-icon">mdi-close</v-icon>

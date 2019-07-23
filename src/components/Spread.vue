@@ -130,7 +130,7 @@
           </v-card-title>
 
           <v-card-text>
-            <span>Wou</span>
+            <v-file-input v-model="uploaded_file" id="file-uploader" label="Spread document" accept="application/json"></v-file-input>
           </v-card-text>
 
           <v-card-actions>
@@ -194,7 +194,8 @@ export default {
       corrupt_dialog: false,
       save_dialog: false,
       data: {},
-      current_cell: { coords: [1,1], content: '', format: { b: false, i: false, ul: false, str: false, ol: false, align: 'left', font: 'Roboto', color: '#FFFFFF', just: 'top', hidden: false }, index: 0, colspan: 1, rowspan: 1 }
+      current_cell: { coords: [1,1], content: '', format: { b: false, i: false, ul: false, str: false, ol: false, align: 'left', font: 'Roboto', color: '#FFFFFF', just: 'top', hidden: false }, index: 0, colspan: 1, rowspan: 1 },
+      uploaded_file: undefined
     }
   },
   methods: {
@@ -264,8 +265,7 @@ export default {
       }
     },
     openDocument() {
-      var files = document.getElementById('file-uploader').files
-      var file_ext_search = files[0].name.search('.spread.json')
+      var file_ext_search = this.uploaded_file.name.search('.spread.json')
       var corrupt = true
       if (file_ext_search >= 1) corrupt = false
       var reader = new FileReader()
@@ -273,11 +273,10 @@ export default {
         reader.onload = e => {
           this.data = JSON.parse(e.target.result)
         }
-        reader.readAsText(files.item(0))
+        reader.readAsText(this.uploaded_file)
         this.open_dialog = false
-        document.getElementById('file-uploader').value = null
       } else {
-        document.getElementById('file-uploader').value = null
+        this.uploaded_file = undefined
         this.corrupt_dialog = true
       }
     },
