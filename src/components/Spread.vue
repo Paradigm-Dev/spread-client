@@ -381,10 +381,8 @@ export default {
 
 .scrollable-shell {
   overflow: scroll;
-  min-height: 100%;
-  max-height: 100%;
-  min-width: 100%;
-  max-width: 100%;
+  width: 100vw;
+  height: calc(100vh - 128px);
 }
 
 .font-underline {
