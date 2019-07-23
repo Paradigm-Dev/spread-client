@@ -3,51 +3,29 @@
     <v-toolbar color="green darken-3" dense>
       <input class="doc-title" type="text" v-model="data.title" placeholder="Untitled document">
       <v-spacer></v-spacer>
-      <v-btn @click="newDocument()" icon class="hidden-sm-and-down"><v-icon>mdi-file-document-box-plus</v-icon></v-btn>
-      <v-btn @click="$notify('Function not implemented')" icon class="hidden-sm-and-down"><v-icon>mdi-printer</v-icon></v-btn>
-      <v-btn @click="open_dialog = true" icon class="hidden-sm-and-down"><v-icon>mdi-folder-open</v-icon></v-btn>
-      <v-btn @click="saveDocument()" icon class="hidden-sm-and-down"><v-icon>mdi-content-save</v-icon></v-btn>
-      <v-menu offset-y class="hidden-md-and-up">
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" icon class="hidden-md-and-up"><v-icon>mdi-menu</v-icon></v-btn>
-        </template>
-        <v-list dense>
-          <v-list-item @click="saveDocument()">
-            <v-list-item-title><v-icon>mdi-content-save</v-icon></v-list-item-title>
-          </v-list-item>
-
-          <v-list-item @click="open_dialog = true">
-            <v-list-item-title><v-icon>mdi-folder-open</v-icon></v-list-item-title>
-          </v-list-item>
-
-          <v-list-item @click="newDocument()">
-            <v-list-item-title><v-icon>mdi-file-document-box-plus</v-icon></v-list-item-title>
-          </v-list-item>
-
-          <v-list-item @click="$notify('Function not implemented')">
-            <v-list-item-title><v-icon>mdi-printer</v-icon></v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <v-btn @click="newDocument()" icon><v-icon>mdi-file-document-box-plus</v-icon></v-btn>
+      <v-btn @click="$notify('Function not implemented')" icon><v-icon>mdi-printer</v-icon></v-btn>
+      <v-btn @click="open_dialog = true" icon><v-icon>mdi-folder-open</v-icon></v-btn>
+      <v-btn @click="saveDocument(false)" icon><v-icon>mdi-content-save</v-icon></v-btn>
     </v-toolbar>
 
     <v-toolbar color="green darken-2" dense>
-      <v-btn icon @click="createColumn()" class="hidden-sm-and-down"><v-icon>mdi-table-column-plus-after</v-icon></v-btn>
-      <v-btn icon @click="createRow()" class="hidden-sm-and-down"><v-icon>mdi-table-row-plus-after</v-icon></v-btn>
+      <v-btn icon @click="createColumn()"><v-icon>mdi-table-column-plus-after</v-icon></v-btn>
+      <v-btn icon @click="createRow()"><v-icon>mdi-table-row-plus-after</v-icon></v-btn>
       <v-divider vertical inset></v-divider>
-      <v-btn icon @click="removeColumn(current_cell)" class="hidden-sm-and-down"><v-icon>mdi-table-column-remove</v-icon></v-btn>
-      <v-btn icon @click="removeRow(current_cell)" class="hidden-sm-and-down"><v-icon>mdi-table-row-remove</v-icon></v-btn>
+      <v-btn icon @click="removeColumn(current_cell)"><v-icon>mdi-table-column-remove</v-icon></v-btn>
+      <v-btn icon @click="removeRow(current_cell)"><v-icon>mdi-table-row-remove</v-icon></v-btn>
       <v-divider vertical inset></v-divider>
-      <v-btn icon @click="colspan(current_cell)" class="hidden-sm-and-down"><v-icon>mdi-arrow-expand-right</v-icon></v-btn>
-      <v-btn icon @click="rowspan(current_cell)" class="hidden-sm-and-down"><v-icon>mdi-arrow-expand-down</v-icon></v-btn>
+      <v-btn icon @click="colspan(current_cell)"><v-icon>mdi-arrow-expand-right</v-icon></v-btn>
+      <v-btn icon @click="rowspan(current_cell)"><v-icon>mdi-arrow-expand-down</v-icon></v-btn>
       <v-divider vertical inset></v-divider>
-      <v-btn icon @click="uncolspan(current_cell)" class="hidden-sm-and-down"><v-icon>mdi-arrow-collapse-left</v-icon></v-btn>
-      <v-btn icon @click="unrowspan(current_cell)" class="hidden-sm-and-down"><v-icon>mdi-arrow-collapse-up</v-icon></v-btn>
+      <v-btn icon @click="uncolspan(current_cell)"><v-icon>mdi-arrow-collapse-left</v-icon></v-btn>
+      <v-btn icon @click="unrowspan(current_cell)"><v-icon>mdi-arrow-collapse-up</v-icon></v-btn>
       <!-- <v-divider vertical inset></v-divider> -->
-      <!-- <v-btn icon @click="data.cells.push({ type: 'icon', src: '', src_saved: '', index: data.cells.length })" class="hidden-sm-and-down"><v-icon>mdi-star</v-icon></v-btn>
-      <v-btn icon @click="data.cells.push({ type: 'gap', index: data.cells.length })" class="hidden-sm-and-down"><v-icon>mdi-arrow-expand-vertical</v-icon></v-btn> -->
-      <v-spacer class="hidden-sm-and-down"></v-spacer>
-      <div class="hidden-sm-and-down" v-if="current_cell">
+      <!-- <v-btn icon @click="data.cells.push({ type: 'icon', src: '', src_saved: '', index: data.cells.length })"><v-icon>mdi-star</v-icon></v-btn>
+      <v-btn icon @click="data.cells.push({ type: 'gap', index: data.cells.length })"><v-icon>mdi-arrow-expand-vertical</v-icon></v-btn> -->
+      <v-spacer></v-spacer>
+      <div v-if="current_cell">
         <v-btn icon @click="data.cells[current_cell.index].format.b = !data.cells[current_cell.index].format.b" v-model="data.cells[current_cell.index].format.b">
           <v-icon>mdi-format-bold</v-icon>
         </v-btn>
@@ -64,9 +42,9 @@
           <v-icon>mdi-format-strikethrough</v-icon>
         </v-btn>
       </div>
-      <v-menu class="hidden-sm-and-down" :close-on-content-click="false" offset-y>
+      <v-menu :close-on-content-click="false" offset-y>
         <template v-slot:activator="{ on }">
-          <v-btn class="hidden-sm-and-down" v-on="on" icon><v-icon>mdi-format-align-{{ data.cells[current_cell.index].format.align }}</v-icon></v-btn>
+          <v-btn v-on="on" icon><v-icon>mdi-format-align-{{ data.cells[current_cell.index].format.align }}</v-icon></v-btn>
         </template>
         <v-list dense>
           <v-list-item-group v-model="data.cells[current_cell.index].format.align">
@@ -98,9 +76,9 @@
           </v-list-item-group>
         </v-list>
       </v-menu>
-      <v-menu offset-y class="hidden-sm-and-down">
+      <v-menu offset-y>
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" icon class="hidden-sm-and-down"><v-icon>mdi-format-font</v-icon></v-btn>
+          <v-btn v-on="on" icon><v-icon>mdi-format-font</v-icon></v-btn>
         </template>
         <v-list dense>
           <v-list-item-group  v-model="data.cells[current_cell.index].format.font">
@@ -122,170 +100,91 @@
           </v-list-item-group>
         </v-list>
       </v-menu>
-      <v-menu :close-on-content-click="false" offset-y class="hidden-sm-and-down">
+      <v-menu :close-on-content-click="false" offset-y>
         <template v-slot:activator="{ on }">
-          <v-btn :style="{ 'color': data.cells[current_cell.index].format.color }" v-on="on" icon class="hidden-sm-and-down"><v-icon>mdi-format-color-fill</v-icon></v-btn>
+          <v-btn :style="{ 'color': data.cells[current_cell.index].format.color }" v-on="on" icon><v-icon>mdi-format-color-fill</v-icon></v-btn>
         </template>
         <v-color-picker show-swatches mode="hexa" style="background-color: #2E2E2E;" v-model="data.cells[current_cell.index].format.color"></v-color-picker>
       </v-menu>
-      <v-btn icon @click="clearFormat(current_cell.index)" class="hidden-sm-and-down"><v-icon>mdi-format-clear</v-icon></v-btn>
-
-
-
-
-      <!-- <v-spacer class="hidden-md-and-up"></v-spacer>
-      <v-menu :close-on-content-click="false" offset-y class="hidden-md-and-up" v-if="current_cell.type == 'text' || current_cell.type == 'header'">
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" icon class="hidden-md-and-up"><v-icon>mdi-format-paint</v-icon></v-btn>
-        </template>
-        <v-list dense>
-          <v-list-item @click="data.cells[current_cell.index].format.b = !data.cells[current_cell.index].format.b"  v-model="data.cells[current_cell.index].format.b">
-            <v-list-item-title><v-icon>mdi-format-bold</v-icon></v-list-item-title>
-          </v-list-item>
-
-          <v-list-item @click="data.cells[current_cell.index].format.i = !data.cells[current_cell.index].format.i"  v-model="data.cells[current_cell.index].format.i">
-            <v-list-item-title><v-icon>mdi-format-italic</v-icon></v-list-item-title>
-          </v-list-item>
-
-          <v-list-item @click="data.cells[current_cell.index].format.ul = !data.cells[current_cell.index].format.ul"  v-model="data.cells[current_cell.index].format.ul">
-            <v-list-item-title><v-icon>mdi-format-underline</v-icon></v-list-item-title>
-          </v-list-item>
-
-          <v-list-item @click="data.cells[current_cell.index].format.ol = !data.cells[current_cell.index].format.ol"  v-model="data.cells[current_cell.index].format.ol">
-            <v-list-item-title><v-icon>mdi-format-overline</v-icon></v-list-item-title>
-          </v-list-item>
-
-          <v-list-item @click="data.cells[current_cell.index].format.str = !data.cells[current_cell.index].format.str"  v-model="data.cells[current_cell.index].format.str">
-            <v-list-item-title><v-icon>mdi-format-strikethrough</v-icon></v-list-item-title>
-          </v-list-item>
-
-          <v-menu class="hidden-md-and-up" :close-on-content-click="false" offset-x left v-if="current_cell.type == 'text' || current_cell.type == 'header'">
-            <template v-slot:activator="{ on }">
-              <v-list-item class="hidden-md-and-up" v-on="on" icon v-if="current_cell.type == 'text' || current_cell.type == 'header'"><v-icon>mdi-format-align-{{ data.cells[current_cell.index].format.align }}</v-icon></v-list-item>
-            </template>
-            <v-list dense>
-              <v-list-item-group v-model="data.cells[current_cell.index].format.align">
-                <v-list-item value="left">
-                  <v-list-item-title><v-icon>mdi-format-align-left</v-icon></v-list-item-title>
-                </v-list-item>
-
-                <v-list-item value="center">
-                  <v-list-item-title><v-icon>mdi-format-align-center</v-icon></v-list-item-title>
-                </v-list-item>
-
-                <v-list-item value="right">
-                  <v-list-item-title><v-icon>mdi-format-align-right</v-icon></v-list-item-title>
-                </v-list-item>
-              </v-list-item-group>
-
-              <v-list-item-group v-model="data.cells[current_cell.index].format.just">
-                <v-list-item value="top">
-                  <v-list-item-title><v-icon>mdi-format-align-top</v-icon></v-list-item-title>
-                </v-list-item>
-
-                <v-list-item value="middle">
-                  <v-list-item-title><v-icon>mdi-format-align-middle</v-icon></v-list-item-title>
-                </v-list-item>
-
-                <v-list-item value="bottom">
-                  <v-list-item-title><v-icon>mdi-format-align-bottom</v-icon></v-list-item-title>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-menu>
-
-          <v-menu offset-x left class="hidden-md-and-up">
-            <template v-slot:activator="{ on }">
-              <v-list-item v-on="on" icon class="hidden-md-and-up"><v-icon>mdi-format-font</v-icon></v-list-item>
-            </template>
-            <v-list dense>
-              <v-list-item-group v-model="data.cells[current_cell.index].format.font">
-                <v-list-item value="Roboto">
-                  <v-list-item-title style="font-family: 'Roboto'"><v-list-item-title>Aa</v-list-item-title></v-list-item-title>
-                </v-list-item>
-
-                <v-list-item value="Roboto Slab">
-                  <v-list-item-title style="font-family: 'Roboto Slab'"><v-list-item-title>Aa</v-list-item-title></v-list-item-title>
-                </v-list-item>
-
-                <v-list-item value="Roboto Mono">
-                  <v-list-item-title style="font-family: 'Roboto Mono'"><v-list-item-title>Aa</v-list-item-title></v-list-item-title>
-                </v-list-item>
-
-                <v-list-item value="Roboto Condensed">
-                  <v-list-item-title style="font-family: 'Roboto Condensed'"><v-list-item-title>Aa</v-list-item-title></v-list-item-title>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-menu>
-          <v-menu :close-on-content-click="false" offset-x class="hidden-md-and-up" v-if="current_cell.type == 'text' || current_cell.type == 'header'">
-            <template v-slot:activator="{ on }">
-              <v-list-item v-on="on" icon class="hidden-md-and-up" v-if="current_cell.type == 'text' || current_cell.type == 'header'"><v-icon :style="{ 'color': data.cells[current_cell.index].format.color }">mdi-format-color-fill</v-icon></v-list-item>
-            </template>
-            <v-color-picker show-swatches mode="hexa" style="background-color: #2E2E2E;" v-model="data.cells[current_cell.index].format.color"></v-color-picker>
-          </v-menu>
-          <v-list-item @click="clearFormat(current_cell.index)">
-            <v-list-item-title><v-icon>mdi-format-clear</v-icon></v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu> -->
+      <v-btn icon @click="clearFormat(current_cell.index)"><v-icon>mdi-format-clear</v-icon></v-btn>
     </v-toolbar>
     <div class="scrollable-shell">
       <table id="editor" @click.self="current_cell = {}">
         <tr v-for="row in data.rows" :key="row.coords.toString()" :style="{ 'height': row.height + 'px' }" @click.self="current_cell = {}">
-          <td :rowspan="cell.rowspan" :colspan="cell.colspan" v-for="cell in data.cells" v-if="cell.coords[1] == row.coords" :key="cell.index" :class="{ 'body-1': true, 'font-weight-bold': cell.format.b, 'font-italic': cell.format.i, 'font-underline': cell.format.ul, 'display-none': cell.format.hidden }" @click="current_cell = cell"><input :style="{ 'width': ((data.columns[cell.coords[0] - 1].width) * cell.colspan) + 'px', 'height': ((data.rows[cell.coords[1] - 1].height) * cell.rowspan) + 'px', 'text-align': cell.format.align, 'font-family': cell.format.font + '!important', 'color': cell.format.color, 'vertical-align': cell.format.just }" class="cell" type="text" v-model="cell.content" :placeholder="cell.coords"></td>
+          <td :rowspan="cell.rowspan" :colspan="cell.colspan" v-for="cell in data.cells" v-if="cell.coords[1] == row.coords" :key="cell.index" :class="{ 'body-1': true, 'font-weight-bold': cell.format.b, 'font-italic': cell.format.i, 'font-underline': cell.format.ul, 'display-none': cell.format.hidden }" :style="{ 'width': ((data.columns[cell.coords[0] - 1].width) * cell.colspan) + 'px', 'height': ((data.rows[cell.coords[1] - 1].height) * cell.rowspan) + 'px' }" @click="current_cell = cell"><input :style="{ 'width': ((data.columns[cell.coords[0] - 1].width) * cell.colspan) + 'px', 'height': ((data.rows[cell.coords[1] - 1].height) * cell.rowspan) + 'px', 'text-align': cell.format.align, 'font-family': cell.format.font + '!important', 'color': cell.format.color, 'vertical-align': cell.format.just }" class="cell" type="text" v-model="cell.content" :placeholder="cell.coords"></td>
         </tr>
       </table>
 
-    <p style="font-family: Roboto Mono; font-size: 12px;"><span class="red--text font-italic">this</span>.current_cell <span class="deep-purple--text lighten-4">=</span> {{ current_cell }}</p>
-    <p style="font-family: Roboto Mono; font-size: 12px;"><span class="red--text font-italic">this</span>.data.rows <span class="deep-purple--text lighten-4">=</span> {{ data.rows }}</p>
-    <p style="font-family: Roboto Mono; font-size: 12px;"><span class="red--text font-italic">this</span>.data.columns <span class="deep-purple--text lighten-4">=</span> {{ data.columns }}</p>
+      <p style="font-family: Roboto Mono; font-size: 12px;"><span class="red--text font-italic">this</span>.current_cell <span class="deep-purple--text lighten-4">=</span> {{ current_cell }}</p>
+      <p style="font-family: Roboto Mono; font-size: 12px;"><span class="red--text font-italic">this</span>.data.rows <span class="deep-purple--text lighten-4">=</span> {{ data.rows }}</p>
+      <p style="font-family: Roboto Mono; font-size: 12px;"><span class="red--text font-italic">this</span>.data.columns <span class="deep-purple--text lighten-4">=</span> {{ data.columns }}</p>
 
-    <v-dialog v-model="open_dialog" max-width="500">
-      <v-card>
-        <v-card-title>
-          <span>Open a Document</span>
-          <v-spacer></v-spacer>
-          <v-btn icon @click="open_dialog = false" class="dialog-close-btn">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
+      <v-dialog v-model="open_dialog" max-width="500">
+        <v-card>
+          <v-card-title>
+            <span>Open a Document</span>
+            <v-spacer></v-spacer>
+            <v-btn icon @click="open_dialog = false" class="dialog-close-btn">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-card-title>
 
-        <v-card-text>
-          <input id="file-uploader" type="file" name="file" accept="application/json">
-        </v-card-text>
+          <v-card-text>
+            <span>Wou</span>
+          </v-card-text>
 
-        <v-card-actions>
-          <v-btn text color="accent" @click="openDocument()">Open</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn text color="red" @click="open_dialog = false">Cancel</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+          <v-card-actions>
+            <v-btn text color="accent" @click="openDocument()">Open</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn text color="red" @click="open_dialog = false">Cancel</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
 
-    <v-dialog v-model="corrupt_dialog" max-width="350">
-      <v-card color="red">
-        <v-card-title>
-          <span style="margin: auto;" class="white--text font-weight-bold text-uppercase">Corrupt Document</span>
-        </v-card-title>
+      <!-- <v-dialog v-model="save_dialog" max-width="500">
+        <v-card>
+          <v-card-title>
+            <span>Save a Document</span>
+          </v-card-title>
 
-        <v-card-text style="text-align: center;">Please upload a valid document.</v-card-text>
+          <v-card-text>
+            <input id="file-uploader" type="file" name="file" accept="application/json">
+          </v-card-text>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text color="white" @click="corrupt_dialog = false">Okay</v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-        </div>
+          <v-card-actions>
+            <v-btn text color="accent" @click="saveDocument(true)">Save and Close</v-btn>
+            <v-btn text color="primary" @click="saveDocument(false)">Save and Continue</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn text color="red" @click="closeWindow()">Don't Save</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn text color="green" @click="save_dialog = false">Cancel</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog> -->
 
+      <v-dialog v-model="corrupt_dialog" max-width="350">
+        <v-card color="red">
+          <v-card-title>
+            <span style="margin: auto;" class="white--text font-weight-bold text-uppercase">Corrupt Document</span>
+          </v-card-title>
+
+          <v-card-text style="text-align: center;">Please upload a valid document.</v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn text color="white" @click="corrupt_dialog = false">Okay</v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
   </div>
 </template>
 
 <script>
 import { saveAs } from 'file-saver'
 import printJS from 'print-js'
+const remote = require('electron').remote
 
 export default {
   name: 'Spread',
@@ -293,6 +192,7 @@ export default {
     return {
       open_dialog: false,
       corrupt_dialog: false,
+      save_dialog: false,
       data: {},
       current_cell: { coords: [1,1], content: '', format: { b: false, i: false, ul: false, str: false, ol: false, align: 'left', font: 'Roboto', color: '#FFFFFF', just: 'top', hidden: false }, index: 0, colspan: 1, rowspan: 1 }
     }
@@ -350,16 +250,16 @@ export default {
           { coords: 4, width: 200, index: 3 }
         ],
         rows: [
-          { coords: 1, height: 20, index: 0 },
-          { coords: 2, height: 20, index: 1 },
-          { coords: 3, height: 20, index: 2 },
-          { coords: 4, height: 20, index: 3 },
-          { coords: 5, height: 20, index: 4 },
-          { coords: 6, height: 20, index: 5 },
-          { coords: 7, height: 20, index: 6 },
-          { coords: 8, height: 20, index: 7 },
-          { coords: 9, height: 20, index: 8 },
-          { coords: 10, height: 20, index: 9 }
+          { coords: 1, height: 30, index: 0 },
+          { coords: 2, height: 30, index: 1 },
+          { coords: 3, height: 30, index: 2 },
+          { coords: 4, height: 30, index: 3 },
+          { coords: 5, height: 30, index: 4 },
+          { coords: 6, height: 30, index: 5 },
+          { coords: 7, height: 30, index: 6 },
+          { coords: 8, height: 30, index: 7 },
+          { coords: 9, height: 30, index: 8 },
+          { coords: 10, height: 30, index: 9 }
         ]
       }
     },
@@ -381,11 +281,14 @@ export default {
         this.corrupt_dialog = true
       }
     },
-    saveDocument() {
+    saveDocument(closing) {
       if (this.data.title) {
         var data = JSON.stringify(this.data)
         var file = new File([ data ], this.data.title + '.spread.json', { type: 'application/json' })
         saveAs(file)
+        if (closing) {
+          this.closeWindow()
+        }
       } else {
         this.$notify('Name your document')
       }
@@ -461,8 +364,10 @@ export default {
       var hidden_cell_index = this.data.cells.findIndex(findCellIndex)
       this.data.cells[hidden_cell_index].format.hidden = false
       this.data.cells[cell1.index].rowspan = this.data.cells[cell1.index].rowspan -= 1
+    },
+    closeWindow() {
+      remote.getCurrentWindow().close()
     }
-
   },
   created() {
     this.newDocument()
@@ -513,7 +418,7 @@ input.doc-title::placeholder {
 }
 
 .cell {
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .cell:hover {
@@ -530,5 +435,18 @@ input.doc-title::placeholder {
 
 .display-none {
   display: none;
+}
+
+table, th, td {
+  border: none;
+}
+
+th, td {
+  padding: 0px;
+  margin: 0px;
+}
+
+table {
+  border-spacing: 0px;
 }
 </style>

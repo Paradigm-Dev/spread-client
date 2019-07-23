@@ -6,7 +6,8 @@
   "author": "Paradigm Development, Inc.",
   "repository": "github:Paradigm-Dev/spread-desktop",
   "scripts": {
-    "build": "vue-cli-service electron:build --publish always --win",
+    "release": "vue-cli-service electron:build --publish always --win",
+    "build": "vue-cli-service electron:build",
     "serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
