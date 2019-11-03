@@ -43,7 +43,8 @@ new Vue({
   data() {
     return {
       snackbar: false,
-      feedback: ''
+      feedback: '',
+      devMode: process.env.NODE_ENV !== 'production'
     }
   }
 }).$mount('div#app')    
